@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Vídeos Educativos</title>
+  <style>
+    body {
+      margin: 0;
+      font-family: sans-serif;
+      background-color: #f9f9f9;
+      color: #333;
+    }
+
+    header {
+      background-color: #ff0000;
+      color: white;
+      padding: 1rem;
+      text-align: center;
+      font-size: 1.5rem;
+    }
+
+    main {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding: 2rem;
+    }
+
+    .section {
+      max-width: 600px;
+      width: 100%;
+      margin-bottom: 2rem;
+    }
+
+    .btn {
+      background-color: #cc0000;
+      color: white;
+      padding: 1rem 2rem;
+      font-size: 1rem;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+    }
+
+    .btn:hover {
+      background-color: #a00000;
+    }
+
+    #videoContainer {
+      display: none;
+      flex-direction: column;
+      gap: 1rem;
+      width: 100%;
+    }
+
+    video {
+      width: 100%;
+      border-radius: 12px;
+      box-shadow: 0 0 15px rgba(0,0,0,0.2);
+    }
+  </style>
+</head>
+<body>
+  <header>📚 Vídeos Educativos</header>
+  <main>
+    <div class="section">
+      <p>Olá! Aqui estão os vídeos educativos para você assistir de forma segura, sem precisar abrir o YouTube.</p>
+      <button class="btn" onclick="mostrarVideos()">Assistir Vídeos</button>
+    </div>
+
+    <div id="videoContainer">
+      <video id="video1" src="A E I O U - Crianças Inteligentes.mp4" controls></video>
+      <video id="video2" src="Teresinha de Lisieux I Sarah Sabará.mp4" controls></video>
+      <video id="video3" src="musical animado- A 13 de Maio _Arte Piedosa.mp4" controls></video>
+    </div>
+  </main>
+
+  <script>
+    function mostrarVideos() {
+      document.querySelector('.section').style.display = 'none';
+      document.getElementById('videoContainer').style.display = 'flex';
+    }
+
+    // Controle de loop entre os vídeos
+    const videos = [
+      document.getElementById("video1"),
+      document.getElementById("video2"),
+      document.getElementById("video3")
+    ];
+
+    videos.forEach((video, index) => {
+      video.addEventListener("ended", () => {
+        const nextIndex = (index + 1) % videos.length;
+        videos[nextIndex].play();
+        videos.forEach((v, i) => {
+          if (i !== nextIndex) v.pause();
+        });
+      });
+    });
+  </script>
+</body>
+</html>
