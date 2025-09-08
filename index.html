@@ -35,17 +35,15 @@
     .title{font-size:14px;color:#fff;margin:0 0 6px}
     .meta-small{font-size:12px;color:var(--muted)}
 
-    /* responsive tweaks */
     @media (max-width:800px){.container{grid-template-columns:1fr} header .search input{width:100%} .player iframe{height:220px}}
 
-    /* subtle 'youtube-like' accent but not copying branding */
     .accent{color:var(--accent);font-weight:700}
   </style>
 </head>
 <body>
   <header>
     <div class="logo"><div class="dot">P</div>PocoyoPlay</div>
-    <div class="search"><input placeholder="Pesquisar vídeos (ex: Balloon, Colors)" aria-label="Pesquisar"></div>
+    <div class="search"><input placeholder="Pesquisar vídeos (ex: Balão, Cores)" aria-label="Pesquisar"></div>
     <div class="user">Olá, Heitor</div>
   </header>
 
@@ -67,10 +65,9 @@
             <h2 id="player-title">Selecione um vídeo — PocoyoPlay</h2>
             <div id="player-desc" style="color:var(--muted);font-size:13px">Clique em qualquer cartão abaixo para carregar o vídeo aqui (não há redirecionamento).</div>
           </div>
-          <div class="accent">Canal: POCOYO Oficial</div>
+          <div class="accent">Canal: POCOYO em Português</div>
         </div>
         <div style="margin-top:12px" id="iframe-wrap">
-          <!-- iframe será injetado aqui -->
           <div style="display:flex;align-items:center;justify-content:center;height:220px;color:var(--muted)">Nenhum vídeo carregado</div>
         </div>
       </div>
@@ -80,14 +77,14 @@
   </div>
 
   <script>
-    // Lista de vídeos (extraídos do YouTube). Substitua IDs se preferir outros episódios.
+    // Episódios em português (IDs de vídeos do canal oficial Pocoyo em Português)
     const videos = [
-      {id: 'qflhcApE7lc', title: "Pocoyo's Balloon (Full Episode)", duration: '7:23'},
-      {id: 'B_XwM0VZ210', title: 'SPRING is here! Let\'s get active!', duration: '3:45'},
-      {id: 'ZRCsWU0LBzw', title: 'The Unicorn | Pocoyo', duration: '2:14'},
-      {id: 'TYLXicuXSuc', title: 'The Sick Song! | Doctor Pato', duration: '4:01'},
-      {id: 'j gklRWk70Tc'.replace(/ /g, ''), title: "Balloon Adventure", duration: '5:12'},
-      {id: 'TvE6ohietK4', title: "Pocoyo's New RACECAR", duration: '6:01'}
+      {id: 'hQXl1YpPo2A', title: 'Pocoyo - O Balão | Desenhos animados em português', duration: '7:23'},
+      {id: '6Xy-bBGGfno', title: 'Pocoyo - Vamos Brincar na Primavera!', duration: '3:45'},
+      {id: 'hKQ74O6ijL0', title: 'Pocoyo - O Unicórnio', duration: '2:14'},
+      {id: 'uVnVjYd9M9k', title: 'Pocoyo - A Canção do Doutor Pato', duration: '4:01'},
+      {id: 'jQ7VYyAebkk', title: 'Pocoyo - A Aventura do Balão', duration: '5:12'},
+      {id: 'NG5D6OD-D3g', title: 'Pocoyo - O Novo Carro de Corrida', duration: '6:01'}
     ];
 
     const grid = document.getElementById('grid');
@@ -100,15 +97,13 @@
     }
 
     function loadVideo(id,title){
-      // usa youtube-nocookie para embutir sem redirecionar para a página watch
-      const src = `https://www.youtube-nocookie.com/embed/${id}?autoplay=1&rel=0`;
+      const src = `https://www.youtube-nocookie.com/embed/${id}?autoplay=1&rel=0&hl=pt`;
       iframeWrap.innerHTML = `<iframe src="${src}" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen title="${title}"></iframe>`;
       playerTitle.textContent = title;
-      playerDesc.textContent = 'Reproduzido via player embutido (YouTube embed) — não há redirecionamento para o site do YouTube.';
+      playerDesc.textContent = 'Reproduzido via player embutido (YouTube embed) em português — não há redirecionamento para o site do YouTube.';
       window.scrollTo({top:0,behavior:'smooth'});
     }
 
-    // popula grid
     videos.forEach(v =>{
       const card = document.createElement('div'); card.className='card';
       card.innerHTML = `
@@ -118,14 +113,13 @@
         </div>
         <div class="info">
           <div class="title">${v.title}</div>
-          <div class="meta-small">POCOYO • 1M visualizações estimadas</div>
+          <div class="meta-small">POCOYO em Português • visualizações estimadas</div>
         </div>
       `;
       card.addEventListener('click', ()=> loadVideo(v.id,v.title));
       grid.appendChild(card);
     });
 
-    // busca simples local (não consulta a API)
     document.querySelector('.search input').addEventListener('input', e=>{
       const q = e.target.value.toLowerCase();
       Array.from(grid.children).forEach((card,i)=>{
@@ -136,5 +130,7 @@
   </script>
 </body>
 </html>
+
+
 
 
