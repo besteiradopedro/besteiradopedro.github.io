@@ -1,104 +1,140 @@
-<!DOCTYPE html>
-<html lang="pt-br">
+<!doctype html>
+<html lang="pt-BR">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Vídeos Educativos</title>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>PocoyoPlay — vídeos</title>
   <style>
-    body {
-      margin: 0;
-      font-family: sans-serif;
-      background-color: #f9f9f9;
-      color: #333;
-    }
+    :root{--bg:#0f0f11;--card:#141416;--muted:#bfc3c7;--accent:#ff3b30;--glass: rgba(255,255,255,0.03)}
+    *{box-sizing:border-box}
+    body{margin:0;font-family:Inter,system-ui,Segoe UI,Roboto,Helvetica,Arial; background:linear-gradient(180deg,#0b0b0d 0%, #0f1012 100%);color:#fff;min-height:100vh}
+    header{display:flex;align-items:center;gap:16px;padding:12px 20px;background:linear-gradient(180deg, rgba(255,255,255,0.02), transparent);backdrop-filter:blur(6px);border-bottom:1px solid rgba(255,255,255,0.03)}
+    .logo{display:flex;align-items:center;gap:10px;font-weight:700;font-size:18px}
+    .logo .dot{width:28px;height:28px;border-radius:6px;background:linear-gradient(135deg,var(--accent),#ff7a66);display:flex;align-items:center;justify-content:center;font-weight:800;color:#fff}
+    .search{flex:1;display:flex;justify-content:center}
+    .search input{width:60%;min-width:220px;padding:10px 14px;border-radius:20px;border:1px solid rgba(255,255,255,0.06);background:transparent;color:var(--muted)}
+    .user{min-width:64px;text-align:right;font-size:14px;color:var(--muted)}
 
-    header {
-      background-color: #ff0000;
-      color: white;
-      padding: 1rem;
-      text-align: center;
-      font-size: 1.5rem;
-    }
+    .container{display:grid;grid-template-columns:240px 1fr;gap:20px;padding:18px}
+    nav{background:transparent;padding:8px;border-right:1px solid rgba(255,255,255,0.02)}
+    nav ul{list-style:none;padding:0;margin:0}
+    nav li{padding:10px 8px;border-radius:8px;color:var(--muted);display:flex;gap:10px;align-items:center}
+    nav li:hover{background:var(--glass);color:#fff}
 
-    main {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      padding: 2rem;
-    }
+    main{padding:8px}
+    .player{background:var(--card);border-radius:12px;padding:12px;box-shadow:0 4px 18px rgba(0,0,0,0.6);min-height:320px;margin-bottom:16px}
+    .player .meta{display:flex;align-items:center;justify-content:space-between;gap:12px}
+    .player iframe{width:100%;height:420px;border-radius:8px;border:0;background:#000}
+    .grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:12px}
 
-    .section {
-      max-width: 600px;
-      width: 100%;
-      margin-bottom: 2rem;
-    }
+    .card{background:linear-gradient(180deg, rgba(255,255,255,0.01), rgba(255,255,255,0.00));border-radius:10px;overflow:hidden;cursor:pointer}
+    .thumb{position:relative;padding-top:56.25%;background:#111}
+    .thumb img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
+    .duration{position:absolute;right:8px;bottom:8px;background:rgba(0,0,0,0.6);padding:4px 6px;border-radius:4px;font-size:12px}
+    .info{padding:10px}
+    .title{font-size:14px;color:#fff;margin:0 0 6px}
+    .meta-small{font-size:12px;color:var(--muted)}
 
-    .btn {
-      background-color: #cc0000;
-      color: white;
-      padding: 1rem 2rem;
-      font-size: 1rem;
-      border: none;
-      border-radius: 8px;
-      cursor: pointer;
-    }
+    /* responsive tweaks */
+    @media (max-width:800px){.container{grid-template-columns:1fr} header .search input{width:100%} .player iframe{height:220px}}
 
-    .btn:hover {
-      background-color: #a00000;
-    }
-
-    #videoContainer {
-      display: none;
-      flex-direction: column;
-      gap: 1rem;
-      width: 100%;
-    }
-
-    video {
-      width: 100%;
-      border-radius: 12px;
-      box-shadow: 0 0 15px rgba(0,0,0,0.2);
-    }
+    /* subtle 'youtube-like' accent but not copying branding */
+    .accent{color:var(--accent);font-weight:700}
   </style>
 </head>
 <body>
-  <header>📚 Vídeos Educativos</header>
-  <main>
-    <div class="section">
-      <p>Olá! Aqui estão os vídeos educativos para você assistir de forma segura, sem precisar abrir o YouTube.</p>
-      <button class="btn" onclick="mostrarVideos()">Assistir Vídeos</button>
-    </div>
+  <header>
+    <div class="logo"><div class="dot">P</div>PocoyoPlay</div>
+    <div class="search"><input placeholder="Pesquisar vídeos (ex: Balloon, Colors)" aria-label="Pesquisar"></div>
+    <div class="user">Olá, Heitor</div>
+  </header>
 
-    <div id="videoContainer">
-      <video id="video1" src="ep1.mp4" controls></video>
-      <video id="video2" src="ep2.mp4" controls></video>
-      <video id="video3" src="ep3.mp4" controls></video>
-      <video id="video3" src="ep4.mp4" controls></video>
-    </div>
-  </main>
+  <div class="container">
+    <nav>
+      <ul>
+        <li>Início</li>
+        <li>Explorar</li>
+        <li>Inscrições</li>
+        <li>Biblioteca</li>
+        <li>Favoritos</li>
+      </ul>
+    </nav>
+
+    <main>
+      <div class="player" id="player">
+        <div class="meta">
+          <div>
+            <h2 id="player-title">Selecione um vídeo — PocoyoPlay</h2>
+            <div id="player-desc" style="color:var(--muted);font-size:13px">Clique em qualquer cartão abaixo para carregar o vídeo aqui (não há redirecionamento).</div>
+          </div>
+          <div class="accent">Canal: POCOYO Oficial</div>
+        </div>
+        <div style="margin-top:12px" id="iframe-wrap">
+          <!-- iframe será injetado aqui -->
+          <div style="display:flex;align-items:center;justify-content:center;height:220px;color:var(--muted)">Nenhum vídeo carregado</div>
+        </div>
+      </div>
+
+      <div class="grid" id="grid"></div>
+    </main>
+  </div>
 
   <script>
-    function mostrarVideos() {
-      document.querySelector('.section').style.display = 'none';
-      document.getElementById('videoContainer').style.display = 'flex';
-    }
-
-    // Controle de loop entre os vídeos
+    // Lista de vídeos (extraídos do YouTube). Substitua IDs se preferir outros episódios.
     const videos = [
-      document.getElementById("video1"),
-      document.getElementById("video2"),
-      document.getElementById("video3")
+      {id: 'qflhcApE7lc', title: "Pocoyo's Balloon (Full Episode)", duration: '7:23'},
+      {id: 'B_XwM0VZ210', title: 'SPRING is here! Let\'s get active!', duration: '3:45'},
+      {id: 'ZRCsWU0LBzw', title: 'The Unicorn | Pocoyo', duration: '2:14'},
+      {id: 'TYLXicuXSuc', title: 'The Sick Song! | Doctor Pato', duration: '4:01'},
+      {id: 'j gklRWk70Tc'.replace(/ /g, ''), title: "Balloon Adventure", duration: '5:12'},
+      {id: 'TvE6ohietK4', title: "Pocoyo's New RACECAR", duration: '6:01'}
     ];
 
-    videos.forEach((video, index) => {
-      video.addEventListener("ended", () => {
-        const nextIndex = (index + 1) % videos.length;
-        videos[nextIndex].play();
-        videos.forEach((v, i) => {
-          if (i !== nextIndex) v.pause();
-        });
+    const grid = document.getElementById('grid');
+    const playerTitle = document.getElementById('player-title');
+    const playerDesc = document.getElementById('player-desc');
+    const iframeWrap = document.getElementById('iframe-wrap');
+
+    function makeThumbUrl(id){
+      return `https://img.youtube.com/vi/${id}/hqdefault.jpg`;
+    }
+
+    function loadVideo(id,title){
+      // usa youtube-nocookie para embutir sem redirecionar para a página watch
+      const src = `https://www.youtube-nocookie.com/embed/${id}?autoplay=1&rel=0`;
+      iframeWrap.innerHTML = `<iframe src="${src}" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen title="${title}"></iframe>`;
+      playerTitle.textContent = title;
+      playerDesc.textContent = 'Reproduzido via player embutido (YouTube embed) — não há redirecionamento para o site do YouTube.';
+      window.scrollTo({top:0,behavior:'smooth'});
+    }
+
+    // popula grid
+    videos.forEach(v =>{
+      const card = document.createElement('div'); card.className='card';
+      card.innerHTML = `
+        <div class="thumb">
+          <img src="${makeThumbUrl(v.id)}" alt="Thumbnail ${v.title}" />
+          <div class="duration">${v.duration}</div>
+        </div>
+        <div class="info">
+          <div class="title">${v.title}</div>
+          <div class="meta-small">POCOYO • 1M visualizações estimadas</div>
+        </div>
+      `;
+      card.addEventListener('click', ()=> loadVideo(v.id,v.title));
+      grid.appendChild(card);
+    });
+
+    // busca simples local (não consulta a API)
+    document.querySelector('.search input').addEventListener('input', e=>{
+      const q = e.target.value.toLowerCase();
+      Array.from(grid.children).forEach((card,i)=>{
+        const t = videos[i].title.toLowerCase();
+        card.style.display = t.includes(q)?'block':'none';
       });
     });
   </script>
 </body>
 </html>
+
+
